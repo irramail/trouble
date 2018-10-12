@@ -1,0 +1,46 @@
+<html><head><meta http-equiv="refresh" content="30"></head><body><div id='main'><div style="display: inline-block;">Последние 24 часа<br /><select id="Day" name="Day" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;">Неделя без сегодня<br /><select id="Weekly" name="Weekly" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;"><br />Месяц без недели<br /><select id="Month" name="Month" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;"><br />От месяца и больше<br /><select id="moreMonth" name="moreMonth" size="30" style="width: 480px;" multiple></select></div></div><divi id="message" name="message"></div><script>
+function getPointsStat(){
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "gateway/statistics/availabilityTime", true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.onreadystatechange = function () {
+		var DONE = 4;
+		var OK = 200;
+		if (xhr.readyState === DONE) {
+			if (xhr.status === OK) {
+                                        var pcs = JSON.parse(xhr.responseText);
+					var i = 0;
+					pcs.forEach(function(pc) {
+						var timediff = [1,0,0,0,0,0]
+						if (pc.time != null)
+							timediff = pc.timediff.split(":");
+
+						var option = document.createElement("option");
+						option.text =  pc.id + ' ' + pc.descript;// + ' ' + pc.timediff;
+						if (timediff[0] > 0) {
+							moreMonth.add(option);
+						} else if (timediff[1] > 0) {
+							moreMonth.add(option);
+                                                } else if (timediff[2] > 6 ) {
+                                                        Month.add(option);
+						} else if (timediff[2] > 0 && timediff[2] < 7) {
+							Weekly.add(option);
+						} else if (timediff[3] > 0) {
+							Day.add(option);
+						} else if (timediff[4] > 5) {
+							Day.add(option);
+						} else {
+							i++;
+						}
+					});
+					document.getElementById("message").innerHTML=i + ' online, ' + (pcs.length - i) + ' offline';	
+				}
+			}
+		}
+        xhr.send();
+}
+
+window.onload = function(){
+	var q = getPointsStat();
+}
+</script></body></html>
