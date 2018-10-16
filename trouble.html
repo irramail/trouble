@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="refresh" content="30"></head><body><div id='main'><div style="display: inline-block;">Последние 24 часа<br /><select id="Day" name="Day" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;">Неделя без сегодня<br /><select id="Weekly" name="Weekly" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;"><br />Месяц без недели<br /><select id="Month" name="Month" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;"><br />От месяца и больше<br /><select id="moreMonth" name="moreMonth" size="30" style="width: 480px;" multiple></select></div></div><divi id="message" name="message"></div><script>
+<html><head><meta http-equiv="refresh" content="30"></head><body><div id='main'><div style="display: inline-block;">Последние 24 часа<span id="countDay"></span><br /><select id="Day" name="Day" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;">Неделя без сегодня<span id="countWeekly"></span><br /><select id="Weekly" name="Weekly" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;"><br />Месяц без недели<span id="countMonth"></span><br /><select id="Month" name="Month" size="30" style="width: 480px;" multiple></select></div><div style="display: inline-block;"><br />От месяца и больше<span id="countMoreMonth"></span><br /><select id="moreMonth" name="moreMonth" size="30" style="width: 480px;" multiple></select></div></div><divi id="message" name="message"></div><script>
 function getPointsStat(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", "gateway/statistics/availabilityTime", true);
@@ -34,6 +34,13 @@ function getPointsStat(){
 						}
 					});
 					document.getElementById("message").innerHTML=i + ' online, ' + (pcs.length - i) + ' offline';	
+					document.getElementById("countDay").innerHTML= ' (' + document.getElementById("Day").length + ')';
+                                        document.getElementById("countWeekly").innerHTML= ' (' + document.getElementById("Weekly").length + ')';
+                                        document.getElementById("countMonth").innerHTML= ' (' + document.getElementById("Month").length + ')';
+                                        document.getElementById("countMoreMonth").innerHTML= ' (' + document.getElementById("moreMonth").length + ')';
+
+
+
 				}
 			}
 		}
